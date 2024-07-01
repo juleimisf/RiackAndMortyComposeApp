@@ -1,19 +1,11 @@
 package com.example.rickandmortycomposeapp
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -28,7 +20,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -45,10 +36,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -60,9 +49,6 @@ import coil.transform.CircleCropTransformation
 import coil.transform.Transformation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.rickandmortycomposeapp.ui.theme.RickAndMortyComposeAppTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +64,6 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(key1 = Unit, block = {
                         viewModel.loadItems()
                     })
-
                     ItemGridScreen(charactersItems)
                 }
             }
@@ -119,96 +104,12 @@ fun ItemCard(item: Character) {
         Column(
             modifier = Modifier.padding(4.dp)
         ) {
-            val placeholder = R.drawable.bg_placeholder
-
-            /* val imageRequest = ImageRequest.Builder(context)
-                 .data(item.imageUrl)
-                 .memoryCacheKey(item.imageUrl)
-                 .diskCacheKey(item.imageUrl)
-                 .placeholder(placeholder)
-                 .error(placeholder)
-                 .fallback(placeholder)
-                 .diskCachePolicy(CachePolicy.ENABLED)
-                 .memoryCachePolicy(CachePolicy.ENABLED)
-                 .transformations(GrayscaleTransformation())
-                 .transformations(RoundedCornersTransformation(30f, 30f, 30f, 30f))
-                 .build()
-
-             AsyncImage(
-                 model = imageRequest,
-                 modifier = Modifier
-                     .size(100.dp)
-                     .padding(4.dp),
-                 contentScale = ContentScale.Crop,
-                 contentDescription = null,
-             )*/
-
-            ReloadableImage(item.imageUrl)
-
-
-            // LoadImageFromUrl(item.imageUrl, context)
-            // LoadImageFromDrawable(imageFromDrawable = placeholder, context)
+            LoadImageFromUrl(item.imageUrl, context)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = item.name, fontSize = 16.sp)
         }
     }
 }
-
-@Composable
-fun ReloadableImage(imageUrl: String) {
-    var reloadTrigger by remember { mutableStateOf(0) }
-
-    val context = LocalContext.current.applicationContext as App
-    val imageLoader = context.imageLoader
-
-    Column {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
-                //.networkCachePolicy(CachePolicy.DISABLED) // Deshabilitar caché de red para forzar recarga
-                //.diskCachePolicy(CachePolicy.ENABLED) // Deshabilitar caché en disco para forzar recarga
-                .setParameter("reloadTrigger", reloadTrigger) // Parámetro para forzar recarga
-                .crossfade(true)
-                .build(),
-            imageLoader = imageLoader,
-            contentDescription = "Reloadable Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Button(onClick = { prefetchImage(context, imageUrl) }) {
-            Text("Recargar Imagen")
-        }
-    }
-}
-
-fun prefetchImage(context: Context, url: String) {
-    val request = ImageRequest.Builder(context)
-        .data(url)
-        .build()
-
-    CoroutineScope(Dispatchers.IO).launch {
-        context.imageLoader.execute(request)
-    }
-}
-
-
-fun isWifiConnected(context: Context): Boolean {
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    } else {
-        val networkInfo = connectivityManager.activeNetworkInfo ?: return false
-        return networkInfo.isConnected
-    }
-}
-
 
 @Composable
 fun LoadImageFromUrl(imageFromUrl: String, context: App) {
@@ -291,7 +192,7 @@ fun LoadImageWithSize(imageUrl: String) {
 @Composable
 fun ScaleTransitionImage(imageUrl: String) {
     var isLoaded by remember { mutableStateOf(false) }
-    val scale by animateFloatAsState(if (isLoaded) 1f else 0.8f)
+    val scale by animateFloatAsState(if (isLoaded) 1f else 0.8f, label = "")
 
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -302,28 +203,13 @@ fun ScaleTransitionImage(imageUrl: String) {
                 }
             )
             .build(),
-        contentDescription = "Example Image",
+        contentDescription = null,
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
             .scale(scale),
         contentScale = ContentScale.Crop
     )
-}
-
-
-fun isInternetAvailable(context: Context): Boolean {
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    } else {
-        val networkInfo = connectivityManager.activeNetworkInfo ?: return false
-        return networkInfo.isConnected
-    }
 }
 
 @Composable
@@ -333,8 +219,8 @@ fun LoadImageWithCache(imageUrl: String) {
     AsyncImage(
         model = ImageRequest.Builder(context)
             .data(imageUrl)
-            .networkCachePolicy(CachePolicy.ENABLED) // Habilita la caché de red
-            .diskCachePolicy(CachePolicy.ENABLED) // Habilita la caché en disco
+            .networkCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .crossfade(500)
             .build(),
         contentDescription = null,
@@ -353,7 +239,7 @@ fun CustomCrossFadeImage(imageUrl: String) {
     AsyncImage(
         model = ImageRequest.Builder(context)
             .data(imageUrl)
-            .crossfade(1000) // Duración de la transición en milisegundos
+            .crossfade(1000)
             .build(),
         contentDescription = null,
         modifier = Modifier
@@ -394,7 +280,7 @@ fun LoadImageWithCrossFade(imageUrl: String) {
             .data(imageUrl)
             .crossfade(true)
             .build(),
-        contentDescription = "Example Image",
+        contentDescription = null,
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp),
@@ -428,7 +314,7 @@ fun LoadImageWithListeners(imageUrl: String) {
     )
 }
 
-class GrayscaleTransformation() : Transformation {
+class GrayscaleTransformation : Transformation {
 
     override val cacheKey: String = GrayscaleTransformation::class.java.name
 

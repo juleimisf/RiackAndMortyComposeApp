@@ -89,7 +89,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("io.coil-kt:coil-svg:2.6.0")
 
+    //HTTP3
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
-
 
 }

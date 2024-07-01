@@ -9,14 +9,9 @@ import coil.disk.DiskCache
 import coil.intercept.Interceptor
 import coil.memory.MemoryCache
 import coil.request.ImageResult
-import coil.util.DebugLogger
 import coil.util.Logger
-import kotlinx.coroutines.Dispatchers
-import okhttp3.Authenticator
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Route
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 import java.util.concurrent.TimeUnit
@@ -24,7 +19,6 @@ import java.util.concurrent.TimeUnit
 class App : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
-
         val client = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
