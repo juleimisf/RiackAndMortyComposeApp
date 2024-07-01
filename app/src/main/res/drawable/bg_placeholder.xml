@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <path
+        android:strokeColor="#949090"
+        android:strokeWidth="1"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M29.4995,12.3739c0.7719-0.0965,1.5437,0.4824,1.5437,1.2543h0l2.5085,23.8312c0.0965,0.7719-0.4824,1.5437-1.2543,1.5437l-23.7347,2.5085c-0.7719,0.0965-1.5437-0.4824-1.5437-1.2543h0l-2.5085-23.7347c-0.0965-0.7719,0.4824-1.5437,1.2543-1.5437l23.7347-2.605Z" />
+    <path
+        android:strokeColor="#949090"
+        android:strokeWidth="1"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M12.9045,18.9347c-1.7367,0.193-3.0874,1.7367-2.8945,3.5699,0.193,1.7367,1.7367,3.0874,3.5699,2.8945,1.7367-0.193,3.0874-1.7367,2.8945-3.5699s-1.8332-3.0874-3.5699-2.8945h0Zm8.7799,5.596l-4.6312,5.6925c-0.193,0.193-0.4824,0.2894-0.6754,0.0965h0l-1.0613-0.8683c-0.193-0.193-0.5789-0.0965-0.6754,0.0965l-5.0171,6.1749c-0.193,0.193-0.193,0.5789,0.0965,0.6754-0.0965,0.0965,0.0965,0.0965,0.193,0.0965l19.9719-2.1226c0.2894,0,0.4824-0.2894,0.4824-0.5789,0-0.0965-0.0965-0.193-0.0965-0.2894l-7.8151-9.0694c-0.2894-0.0965-0.5789-0.0965-0.7719,0.0965h0Z" />
+    <path
+        android:strokeColor="#949090"
+        android:strokeWidth="1"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M16.2814,13.8211l0.6754-6.0784c0.0965-0.7719,0.7719-1.3508,1.5437-1.2543l23.7347,2.5085c0.7719,0.0965,1.3508,0.7719,1.2543,1.5437h0l-2.5085,23.7347c0,0.6754-0.7719,1.2543-1.5437,1.2543l-6.1749-0.6754" />
+    <path
+        android:strokeColor="#949090"
+        android:strokeWidth="1"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M32.7799,29.9337l5.3065,0.5789c0.2894,0,0.4824-0.193,0.5789-0.4824,0-0.0965,0-0.193-0.0965-0.2894l-5.789-10.5166c-0.0965-0.193-0.4824-0.2894-0.6754-0.193h0l-0.3859,0.3859" />
+</vector>
