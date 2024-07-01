@@ -79,7 +79,7 @@ fun ItemGridScreen(charactersItems: List<Character>) {
 @Composable
 fun ItemGrid(items: List<Character>) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Dos columnas
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(items.size) { index ->
